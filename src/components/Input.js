@@ -105,16 +105,19 @@ const Input = () => {
       findRhyme(word, maxItems);
       userInput.current.value = "";
       setSpanText(word);
-      console.log(spanText);
     } else {
       setWord(e.target.value);
     }
   };
 
   const findRhyme = async (userWord, userMaxItems) => {
-    const endpoint = api + userWord + "&max=" + userMaxItems;
-    const result = await axios(endpoint);
-    setResults(result.data);
+    try {
+      const endpoint = api + userWord + "&max=" + userMaxItems;
+      const result = await axios(endpoint);
+      setResults(result.data);
+    } catch {
+      console.log(`error`);
+    }
   };
 
   const resultsList = results.map((item, key) => {
