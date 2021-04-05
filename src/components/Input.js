@@ -1,6 +1,6 @@
-import axios from 'axios';
-import styled from 'styled-components';
-import { useRef, useState } from 'react';
+import axios from "axios";
+import styled from "styled-components";
+import { useRef, useState } from "react";
 
 const api = `https://api.datamuse.com/words?rel_rhy=`;
 
@@ -9,11 +9,11 @@ const StyledDiv = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: #f07070;
-  width: 30%;
+  width: 500px;
   border-radius: 1rem;
   padding: 5rem;
   h1 {
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     color: #4a3da0;
     font-weight: 100;
     font-size: 3.2rem;
@@ -43,7 +43,7 @@ const StyledDiv = styled.div`
 
 const StyledButton = styled.button`
   padding: 1.6rem;
-  width: 40%;
+  width: 60%;
   color: white;
   margin-top: 2rem;
   background-color: #4a3da0;
@@ -85,11 +85,11 @@ const StyledLi = styled.li`
 `;
 
 const Input = () => {
-  const [word, setWord] = useState('');
+  const [word, setWord] = useState("");
   const [maxItems, setMaxItems] = useState(10);
   const [results, setResults] = useState([]);
   const [visibility, setVisibility] = useState(false);
-  const [spanText, setSpanText] = useState('');
+  const [spanText, setSpanText] = useState("");
 
   const userInput = new useRef(null);
 
@@ -99,11 +99,11 @@ const Input = () => {
     setSpanText(word);
   };
 
-  const inputKeyPress = e => {
-    if (e.key === 'Enter') {
+  const inputKeyPress = (e) => {
+    if (e.key === "Enter") {
       setVisibility(true);
       findRhyme(word, maxItems);
-      userInput.current.value = '';
+      userInput.current.value = "";
       setSpanText(word);
       console.log(spanText);
     } else {
@@ -112,7 +112,7 @@ const Input = () => {
   };
 
   const findRhyme = async (userWord, userMaxItems) => {
-    const endpoint = api + userWord + '&max=' + userMaxItems;
+    const endpoint = api + userWord + "&max=" + userMaxItems;
     const result = await axios(endpoint);
     setResults(result.data);
   };
@@ -129,17 +129,17 @@ const Input = () => {
     <StyledDiv>
       <h1>Time to find a Rhyme </h1>
       <input
-        type='text'
-        placeholder='type a word...'
-        autoCorrect='false'
-        autoComplete='false'
-        spellCheck='false'
+        type="text"
+        placeholder="type a word..."
+        autoCorrect="false"
+        autoComplete="false"
+        spellCheck="false"
         ref={userInput}
         onKeyUp={inputKeyPress}
       ></input>
       <StyledButton onClick={buttonClickHandler}>Find</StyledButton>
-      <StyledOutput className={visibility === true ? '' : 'hide'}>
-        <h2 className={visibility === true ? '' : 'hide'}>
+      <StyledOutput className={visibility === true ? "" : "hide"}>
+        <h2 className={visibility === true ? "" : "hide"}>
           Words that rhyme with <span>{spanText}</span>
         </h2>
         <ol>{resultsList}</ol>
