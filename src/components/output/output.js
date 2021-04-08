@@ -12,7 +12,7 @@ const StyledOutput = styled.div`
   box-shadow: inset 5px 5px 8px rgba(0, 0, 0, 0.263),
     inset -3px -3px 10px rgba(255, 255, 255, 0.201);
   width: 100%;
-  max-height: 361px;
+  max-height: 370px;
   margin-top: 2rem;
   background-color: slategray;
   border: 1 px solid darkblue;
