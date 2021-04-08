@@ -8,10 +8,6 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f07070;
-  width: 500px;
-  border-radius: 1rem;
-  padding: 5rem;
   h1 {
     font-family: 'Work Sans', sans-serif;
     color: #4a3da0;
@@ -30,7 +26,6 @@ const StyledDiv = styled.div`
     border: 0.5px solid #4a3da0;
     outline: none;
     color: #4a3da0;
-
     ::placeholder {
       color: rgba(74, 61, 160, 0.517);
     }
@@ -62,25 +57,38 @@ const Input = ({
   setVisibility,
   setSpanText,
   spanText,
+  results,
+  setResults,
+  setIsLoading,
 }) => {
   // !exp Refs
   const userInput = new React.useRef(null);
 
   // !exp Event Handlers
-  const buttonClickHandler = () => {
-    setVisibility(true);
-    findRhyme(word, maxItems);
-    setSpanText(word);
+  const onClickHandler = () => {
+    getRhyme();
   };
 
-  const inputKeyPress = e => {
+  const keyupHandler = e => {
     if (e.key === 'Enter') {
-      setVisibility(true);
-      findRhyme(word, maxItems);
-      userInput.current.value = '';
-      setSpanText(word);
+      getRhyme();
     } else {
       setWord(e.target.value);
+    }
+  };
+
+  // function
+  const getRhyme = async () => {
+    setIsLoading(true);
+    setVisibility(true);
+    if (word.split(' ').length === 1) {
+      const data = await findRhyme(word, maxItems);
+      setIsLoading(false);
+      setResults(data);
+      setSpanText(word);
+      userInput.current.value = '';
+    } else {
+      console.log(`More than 1 word`);
     }
   };
 
@@ -90,13 +98,13 @@ const Input = ({
       <input
         type='text'
         placeholder='type a word...'
-        autoCorrect='false'
-        autoComplete='false'
+        autoComplete='off'
+        autoCorrect='off'
         spellCheck='false'
         ref={userInput}
-        onKeyUp={inputKeyPress}
+        onKeyUp={keyupHandler}
       />
-      <button onClick={buttonClickHandler}>Find</button>
+      <button onClick={onClickHandler}>Find</button>
     </StyledDiv>
   );
 };

@@ -1,8 +1,24 @@
 // module imports
 import * as React from 'react'
+import styled from 'styled-components'
+
 
 import Input from './components/input/Input';
 import Output from './components/output/output';
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f07070;
+  width: 500px;
+  border-radius: 1rem;
+  padding: 5rem;
+  .hide{
+    display: none;
+  }
+`;
+
 
 function App() {
   // !exp States
@@ -16,22 +32,31 @@ function App() {
 
   return (
     <div className='App'>
-      <Input
-        word={word}
-        setWord={setWord}
-        maxItems = {maxItems}
-        setMaxItems={setMaxItems}
-        visibility={visibility}
-        setVisibility={setVisibility}
-        spanText={spanText}
-        setSpanText={setSpanText}
-      />
-      {/* <Output
-        results={results}
-        visibility={visibility}
-        isLoading={isLoading}
-        spanText={spanText}
-      /> */}
+      <StyledContainer>
+        <Input
+          word={word}
+          setWord={setWord}
+          maxItems={maxItems}
+          setMaxItems={setMaxItems}
+          visibility={visibility}
+          setVisibility={setVisibility}
+          spanText={spanText}
+          setSpanText={setSpanText}
+          results={results}
+          setResults={setResults}
+          setIsLoading={setIsLoading}
+        />
+        {visibility? <Output
+          results={results}
+          visibility={visibility}
+          isLoading={isLoading}
+          spanText={spanText}
+          outputHeader={outputHeader}
+          setOutputHeader={setOutputHeader}
+          
+        />: null}
+        
+      </StyledContainer>
     </div>
   );
 }

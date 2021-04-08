@@ -8,6 +8,9 @@ box-sizing: border-box;
 margin: 0;
 padding: 0;
 font-family: 'Work Sans', sans-serif;
+:focus{
+  outline: none;
+}
 }
 html {
 font-size: 62.5%;
