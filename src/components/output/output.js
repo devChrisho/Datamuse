@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as MUI from '@material-ui/core';
 import 'tippy.js/dist/tippy.css';
-// import Tippy from '@tippyjs/react';
+import Tippy from '@tippyjs/react';
 
 const StyledOutput = styled.div`
   display: flex;
@@ -36,9 +36,15 @@ const StyledLi = styled.li`
   margin-left: 2rem;
   margin-top: 1rem;
   padding-left: 1rem;
+  span {
+    cursor: pointer;
+  }
 `;
 
 const StyledLoader = styled(MUI.CircularProgress)``;
+
+const synth = window.speechSynthesis;
+
 
 const Output = ({
   results,
@@ -52,9 +58,13 @@ const Output = ({
   // !exp mapper
   if (results.length !== 0) {
     resultsList = results.map((item, key) => {
+      let utterThis = new SpeechSynthesisUtterance();
       return (
-        <StyledLi key={key}>
-          {item.word} ({item.numSyllables} syll.)
+        <StyledLi>
+          <Tippy content={item.word} key={key}>
+            <span>{item.word}</span>
+          </Tippy>{' '}
+          ({item.numSyllables} syll.)
         </StyledLi>
       );
     });
