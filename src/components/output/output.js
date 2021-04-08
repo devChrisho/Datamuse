@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as MUI from '@material-ui/core';
 import 'tippy.js/dist/tippy.css';
-import Tippy from '@tippyjs/react';
+// import Tippy from '@tippyjs/react';
 
 const StyledOutput = styled.div`
   display: flex;
