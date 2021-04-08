@@ -20,7 +20,7 @@ const StyledOutput = styled.div`
   padding: 3rem;
   font-size: 1.2rem;
   border-radius: 0.5rem;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   h2 {
     margin-bottom: auto;
@@ -38,9 +38,7 @@ const StyledLi = styled.li`
   padding-left: 1rem;
 `;
 
-const StyledLoader = styled(MUI.CircularProgress)`
-
-`;
+const StyledLoader = styled(MUI.CircularProgress)``;
 
 const Output = ({
   results,
