@@ -45,7 +45,6 @@ const StyledLoader = styled(MUI.CircularProgress)``;
 
 const synth = window.speechSynthesis;
 
-
 const Output = ({
   results,
   visibility,
@@ -54,15 +53,25 @@ const Output = ({
   outputHeader,
   setOutputHeader,
 }) => {
+  const voices = synth.getVoices();
+  const engVoices = voices.filter(voice => {
+    return voice.lang.includes('en');
+  });
+
+  const spanClickHandler = e => {
+    let utterThis = new SpeechSynthesisUtterance(e.target.innerText);
+    utterThis.voice = engVoices[11];
+    synth.speak(utterThis);
+  };
+
   let resultsList;
   // !exp mapper
   if (results.length !== 0) {
     resultsList = results.map((item, key) => {
-      let utterThis = new SpeechSynthesisUtterance();
       return (
-        <StyledLi>
-          <Tippy content={item.word} key={key}>
-            <span>{item.word}</span>
+        <StyledLi key={key}>
+          <Tippy content={item.word}>
+            <span onClick={spanClickHandler}>{item.word}</span>
           </Tippy>{' '}
           ({item.numSyllables} syll.)
         </StyledLi>
