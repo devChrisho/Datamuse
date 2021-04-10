@@ -69,12 +69,11 @@ const Output = ({
   });
 
   const spanClickHandler = e => {
+    console.log(engVoices);
     let utterThis = new SpeechSynthesisUtterance(e.target.innerText);
     utterThis.voice = engVoices[11];
     synth.speak(utterThis);
   };
-
-  
 
   let resultsList;
   // !exp mapper
@@ -85,7 +84,7 @@ const Output = ({
           <Tooltip
             title={item.word}
             touchHold='true'
-            onShow={()=>tooltipHandler(item)}
+            onShow={() => tooltipHandler(item)}
             animation='perspective'
           >
             <span onClick={spanClickHandler}>{item.word}</span>
