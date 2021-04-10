@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import * as MUI from '@material-ui/core';
-import 'tippy.js/dist/tippy.css';
-import Tippy from '@tippyjs/react';
+import 'react-tippy/dist/tippy.css';
+import { Tooltip } from 'react-tippy';
+import axios from 'axios';
 
 const StyledOutput = styled.div`
   display: flex;
@@ -45,6 +46,15 @@ const StyledLoader = styled(MUI.CircularProgress)``;
 
 const synth = window.speechSynthesis;
 
+const api = 'https://api.dictionaryapi.dev/api/v2/entries/en_US/';
+
+const tooltipHandler = async item => {
+  const endpoint = api + item.word;
+  const result = await axios(endpoint);
+  const definition = result.data;
+  console.log(definition[0]);
+};
+
 const Output = ({
   results,
   visibility,
@@ -64,15 +74,22 @@ const Output = ({
     synth.speak(utterThis);
   };
 
+  
+
   let resultsList;
   // !exp mapper
   if (results.length !== 0) {
     resultsList = results.map((item, key) => {
       return (
         <StyledLi key={key}>
-          <Tippy content={item.word}>
+          <Tooltip
+            title={item.word}
+            touchHold='true'
+            onShow={()=>tooltipHandler(item)}
+            animation='perspective'
+          >
             <span onClick={spanClickHandler}>{item.word}</span>
-          </Tippy>{' '}
+          </Tooltip>{' '}
           ({item.numSyllables} syll.)
         </StyledLi>
       );
