@@ -44,7 +44,6 @@ const StyledLi = styled.li`
 
 const StyledLoader = styled(MUI.CircularProgress)``;
 
-const synth = window.speechSynthesis;
 
 const api = 'https://api.dictionaryapi.dev/api/v2/entries/en_US/';
 
@@ -52,6 +51,7 @@ const tooltipHandler = async item => {
   const endpoint = api + item.word;
   const result = await axios(endpoint);
   const definition = result.data;
+  console.log(`This is the definition obj`)
   console.log(definition[0]);
 };
 
@@ -62,16 +62,19 @@ const Output = ({
   spanText,
   outputHeader,
   setOutputHeader,
+  voiceChoice,
+  voicesSet
+  
 }) => {
-  const voices = synth.getVoices();
-  const engVoices = voices.filter(voice => {
-    return voice.lang.includes('en');
-  });
+  const synth = window.speechSynthesis;
 
   const spanClickHandler = e => {
-    console.log(engVoices);
+    
     let utterThis = new SpeechSynthesisUtterance(e.target.innerText);
-    utterThis.voice = engVoices[11];
+    console.log(voiceChoice)
+    // console.log(voicesSet)
+    
+    utterThis.voice = voiceChoice
     synth.speak(utterThis);
   };
 
