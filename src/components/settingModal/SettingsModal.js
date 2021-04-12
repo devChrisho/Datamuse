@@ -21,11 +21,17 @@ const StyledCloseIcon = styled(Icons.Close)`
   top: 2rem;
   right: 2rem;
   position: absolute;
-  font-weight: 900!important;
-  font-size: 3rem!important;
+  font-weight: 900 !important;
+  font-size: 3rem !important;
+  cursor: pointer;
 `;
 
-const SettingsModal = ({ voicesSet, voiceChoice, setVoiceChoice }) => {
+const SettingsModal = ({
+  voicesSet,
+  voiceChoice,
+  setVoiceChoice,
+  setIsSettingsOpen,
+}) => {
   const voiceList = voicesSet.map((voice, key) => {
     return (
       <option value={voice.name} key={key}>
@@ -43,9 +49,13 @@ const SettingsModal = ({ voicesSet, voiceChoice, setVoiceChoice }) => {
     setVoiceChoice(selectedVoice[0]);
   };
 
+  const closeClickHandler = () => {
+    setIsSettingsOpen(false);
+  };
+
   return (
     <StyledContainer>
-      <StyledCloseIcon />
+      <StyledCloseIcon onClick={closeClickHandler} />
       <h2>Settings</h2>
       <hr />
       <div>

@@ -81,6 +81,7 @@ function App() {
             voicesSet={voicesSet}
             voiceChoice={voiceChoice}
             setVoiceChoice={setVoiceChoice}
+            setIsSettingsOpen={setIsSettingsOpen}
           />
         </MUI.Dialog>
         <Input
