@@ -35,7 +35,7 @@ const SettingsModal = ({
   const voiceList = voicesSet.map((voice, key) => {
     return (
       <option value={voice.name} key={key}>
-        {voice.name}
+        {voice.name} ({voice.lang})
       </option>
     );
   });
