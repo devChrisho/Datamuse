@@ -41,6 +41,7 @@ const StyledDiv = styled.div`
     border-radius: 5rem;
     font-size: 1.6rem;
     font-weight: bold;
+    cursor: pointer;
     &:active {
       background-color: rgba(74, 61, 160, 0.521);
       transition: 0.1s all ease-in-out;
@@ -66,14 +67,24 @@ const Input = ({
 
   // !exp Event Handlers
   const onClickHandler = () => {
-    getRhyme();
+    if (
+      userInput.current.value !== '' &&
+      userInput.current.value.split(' ').length === 1
+    ) {
+      getRhyme();
+    }
   };
 
   const keyupHandler = e => {
     if (e.key === 'Enter') {
-      getRhyme();
-    } else {
-      setWord(e.target.value);
+      if (
+        userInput.current.value !== '' &&
+        userInput.current.value.split(' ').length === 1
+      ) {
+        getRhyme();
+      } else {
+        setWord(e.target.value);
+      }
     }
   };
 
