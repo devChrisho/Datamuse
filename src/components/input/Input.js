@@ -71,6 +71,7 @@ const Input = ({
       userInput.current.value !== '' &&
       userInput.current.value.split(' ').length === 1
     ) {
+      setWord(userInput.current.value);
       getRhyme();
     }
   };
@@ -82,9 +83,9 @@ const Input = ({
         userInput.current.value.split(' ').length === 1
       ) {
         getRhyme();
-      } else {
-        setWord(e.target.value);
       }
+    } else {
+      setWord(e.target.value);
     }
   };
 
@@ -92,15 +93,12 @@ const Input = ({
   const getRhyme = async () => {
     setIsLoading(true);
     setVisibility(true);
-    if (word.split(' ').length === 1) {
-      const data = await findRhyme(word, maxItems);
-      setIsLoading(false);
-      setResults(data);
-      setSpanText(word);
-      userInput.current.value = '';
-    } else {
-      console.log(`More than 1 word`);
-    }
+    const data = await findRhyme(word, maxItems);
+
+    setIsLoading(false);
+    setResults(data);
+    setSpanText(word);
+    userInput.current.value = '';
   };
 
   return (

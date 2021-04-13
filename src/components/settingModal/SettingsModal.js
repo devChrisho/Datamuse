@@ -32,21 +32,30 @@ const SettingsModal = ({
   setVoiceChoice,
   setIsSettingsOpen,
 }) => {
+const localStorage = window.localStorage;
+
   const voiceList = voicesSet.map((voice, key) => {
     return (
-      <option value={voice.name} key={key}>
+      <option
+        value={voice.name}
+        key={key}
+        
+      >
         {voice.name} ({voice.lang})
       </option>
     );
   });
 
   const selectHandler = e => {
+    
     const selection = e.target.value;
     const selectedVoice = voicesSet.filter(voice => {
       return voice.name === selection;
-    });
+    })[0];
 
-    setVoiceChoice(selectedVoice[0]);
+    setVoiceChoice(selectedVoice);
+
+    localStorage.setItem('selectedVoice', selectedVoice.name);
   };
 
   const closeClickHandler = () => {
@@ -60,7 +69,7 @@ const SettingsModal = ({
       <hr />
       <div>
         <label htmlFor='voiceChoice'>Choose a voice: </label>
-        <select name='voiceChoice' onChange={selectHandler}>
+        <select name='voiceChoice' onChange={selectHandler} defaultValue={localStorage.getItem('selectedVoice')}>
           {voiceList}
         </select>
       </div>

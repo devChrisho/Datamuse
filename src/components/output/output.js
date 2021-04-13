@@ -71,10 +71,12 @@ const Output = ({
   const spanClickHandler = e => {
     
     let utterThis = new SpeechSynthesisUtterance(e.target.innerText);
-    console.log(voiceChoice)
+    // console.log(voiceChoice)
     // console.log(voicesSet)
+    if (voiceChoice) {
+      utterThis.voice = voiceChoice;
+    }
     
-    utterThis.voice = voiceChoice
     synth.speak(utterThis);
   };
 

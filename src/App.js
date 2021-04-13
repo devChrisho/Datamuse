@@ -20,6 +20,30 @@ const StyledContainer = styled.div`
   .hide {
     display: none;
   }
+  .rotating {
+    -webkit-animation: rotating 5s linear infinite;
+    -moz-animation: rotating 5s linear infinite;
+    -ms-animation: rotating 5s linear infinite;
+    -o-animation: rotating 5s linear infinite;
+    animation: rotating 5s linear infinite;
+  }
+
+  @keyframes rotating {
+    from {
+      -ms-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -ms-transform: rotate(360deg);
+      -moz-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      -o-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 const StyledCogIcon = styled(Icons.Settings)`
@@ -29,7 +53,12 @@ const StyledCogIcon = styled(Icons.Settings)`
   color: rgba(0, 0, 0, 0.291);
   font-size: 3rem !important;
   cursor: pointer;
+
+
+  
 `;
+
+const synth = window.speechSynthesis;
 
 function App() {
   // !exp States
@@ -41,13 +70,12 @@ function App() {
   const [outputHeader, setOutputHeader] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
-  const [voiceChoice, setVoiceChoice] = React.useState({});
+  const [voiceChoice, setVoiceChoice] = React.useState();
   const [voicesSet, setVoicesSet] = React.useState([]);
 
-  React.useEffect(() => {
-    const synth = window.speechSynthesis;
-
-    const getVoices = () => {
+  // Gets list of voices
+  React.useEffect( () => {
+    const getVoices =  () => {
       setTimeout(() => {
         const voices = synth.getVoices();
 
@@ -58,11 +86,21 @@ function App() {
         setVoicesSet(engVoices);
       }, 10);
     };
-
     getVoices();
   }, []);
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    const localStorage = window.localStorage;
+    // name of previous chosen voice
+    const storageVoice = localStorage.getItem('selectedVoice');
+    // previous voice object
+    const previousVoice = voicesSet.filter(voice => {
+      return voice.name === storageVoice;
+    })[0];
+
+    setVoiceChoice(previousVoice);
+
+  },[voicesSet])
 
   const iconClickHandler = () => {
     setIsSettingsOpen(!isSettingsOpen);
@@ -71,7 +109,7 @@ function App() {
   return (
     <div className='App'>
       <StyledContainer>
-        <StyledCogIcon onClick={iconClickHandler} />
+        <StyledCogIcon onClick={iconClickHandler} className={isSettingsOpen? 'rotating':'' }/>
         <MUI.Dialog
           open={isSettingsOpen}
           onClose={iconClickHandler}
