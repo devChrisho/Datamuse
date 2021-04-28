@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import * as Icons from '@material-ui/icons';
 import * as MUI from '@material-ui/core';
 
+// !exp Custom components
 import Input from './components/input/Input';
 import Output from './components/output/output';
 import SettingsModal from './components/settingModal/SettingsModal';
@@ -28,6 +29,7 @@ const StyledContainer = styled.div`
     animation: rotating 5s linear infinite;
   }
 
+/* Tween */
   @keyframes rotating {
     from {
       -ms-transform: rotate(0deg);
@@ -53,9 +55,6 @@ const StyledCogIcon = styled(Icons.Settings)`
   color: rgba(0, 0, 0, 0.291);
   font-size: 3rem !important;
   cursor: pointer;
-
-
-  
 `;
 
 const synth = window.speechSynthesis;
@@ -74,8 +73,8 @@ function App() {
   const [voicesSet, setVoicesSet] = React.useState([]);
 
   // Gets list of voices
-  React.useEffect( () => {
-    const getVoices =  () => {
+  React.useEffect(() => {
+    const getVoices = () => {
       setTimeout(() => {
         const voices = synth.getVoices();
 
@@ -99,8 +98,7 @@ function App() {
     })[0];
 
     setVoiceChoice(previousVoice);
-
-  },[voicesSet])
+  }, [voicesSet]);
 
   const iconClickHandler = () => {
     setIsSettingsOpen(!isSettingsOpen);
@@ -109,7 +107,10 @@ function App() {
   return (
     <div className='App'>
       <StyledContainer>
-        <StyledCogIcon onClick={iconClickHandler} className={isSettingsOpen? 'rotating':'' }/>
+        <StyledCogIcon
+          onClick={iconClickHandler}
+          className={isSettingsOpen ? 'rotating' : ''}
+        />
         <MUI.Dialog
           open={isSettingsOpen}
           onClose={iconClickHandler}
