@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
-
-// helper functions
-import findRhyme from '../../util/api';
+import axios from 'axios';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -63,40 +61,63 @@ const Input = ({
   setIsLoading,
 }) => {
   // !exp Refs
-  const userInput = new React.useRef(null);
+  const userInput = new React.useRef('');
 
-  // !exp Event Handlers
-  const onClickHandler = () => {
-    if (
-      userInput.current.value !== '' &&
-      userInput.current.value.split(' ').length === 1
-    ) {
-      setWord(userInput.current.value);
-      getRhyme();
+  // custom function
+  const findRhyme = async (userWord, userMaxItems) => {
+    const api = `https://api.datamuse.com/words?rel_rhy=`;
+    const endpoint = api + userWord + '&max=' + userMaxItems;
+    try {
+      const res = await axios(endpoint);
+      const data = res.data;
+      return data;
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const keyupHandler = e => {
+  // !exp Event Handlers
+  const onClickHandler = () => {
+    // if (
+    //   userInput.current.value !== '' &&
+    //   userInput.current.value.split(' ').length === 1
+    // ) {
+    //   // setWord(userInput.current.value);
+    //   console.log(word)
+    //   getRhyme();
+    // }
+  };
+
+  const keydownHandler = async e => {
     if (e.key === 'Enter') {
-      if (
-        userInput.current.value !== '' &&
-        userInput.current.value.split(' ').length === 1
-      ) {
-        getRhyme();
-      }
-    } else {
-      setWord(e.target.value);
+      const data = await findRhyme(userInput.current.value, maxItems);
+      await setResults(data);
+      await setWord(userInput.current.value);
+      setVisibility(true);
+      setSpanText(word);
+      //  userInput.current.value = '';
     }
+
+    // if (e.key === 'Enter') {
+    //   if (
+    //     userInput.current.value !== '' &&
+    //     userInput.current.value.split(' ').length === 1
+    //   ) {
+    //     // console.log(userInput.current.value);
+    //     // setWord(userInput.current.value);
+    //     console.log(word)
+    //     getRhyme();
+    //   }
+    // }
   };
 
   // function
   const getRhyme = async () => {
+    const data = await findRhyme(userInput.current.value, maxItems);
+    await setResults(data);
     setIsLoading(true);
     setVisibility(true);
-    const data = await findRhyme(word, maxItems);
-
     setIsLoading(false);
-    setResults(data);
     setSpanText(word);
     userInput.current.value = '';
   };
@@ -111,7 +132,7 @@ const Input = ({
         autoCorrect='off'
         spellCheck='false'
         ref={userInput}
-        onKeyUp={keyupHandler}
+        onKeyDown={keydownHandler}
       />
       <button onClick={onClickHandler}>Find</button>
     </StyledDiv>

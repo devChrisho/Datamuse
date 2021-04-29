@@ -3,6 +3,7 @@ import * as MUI from '@material-ui/core';
 import 'react-tippy/dist/tippy.css';
 import { Tooltip } from 'react-tippy';
 import axios from 'axios';
+import * as React from 'react';
 
 const StyledOutput = styled.div`
   display: flex;
@@ -44,15 +45,14 @@ const StyledLi = styled.li`
 
 const StyledLoader = styled(MUI.CircularProgress)``;
 
-
 const api = 'https://api.dictionaryapi.dev/api/v2/entries/en_US/';
 
 const tooltipHandler = async item => {
   const endpoint = api + item.word;
   const result = await axios(endpoint);
-  const definition = result.data;
-  console.log(`This is the definition obj`)
-  console.log(definition[0]);
+  // definition obj
+  const definition = result.data[0];
+  return definition;
 };
 
 const Output = ({
@@ -63,65 +63,52 @@ const Output = ({
   outputHeader,
   setOutputHeader,
   voiceChoice,
-  voicesSet
-  
+  voicesSet,
+  word,
 }) => {
   const synth = window.speechSynthesis;
 
   const spanClickHandler = e => {
-    
     let utterThis = new SpeechSynthesisUtterance(e.target.innerText);
-    // console.log(voiceChoice)
-    // console.log(voicesSet)
     if (voiceChoice) {
       utterThis.voice = voiceChoice;
     }
-    
     synth.speak(utterThis);
   };
 
-  let resultsList;
   // !exp mapper
-  if (results.length !== 0) {
-    resultsList = results.map((item, key) => {
+  const [resultsList, setResultsList] = React.useState([]);
+  React.useEffect(async () => {
+    const list = await results.map(async (item, key) => {
+      // const definition = await tooltipHandler(item);
+      // console.log(definition);
       return (
         <StyledLi key={key}>
-          <Tooltip
-            title={item.word}
-            touchHold='true'
-            onShow={() => tooltipHandler(item)}
-            animation='perspective'
-          >
+          <Tooltip title={item.word} touchHold='true' animation='perspective'>
             <span onClick={spanClickHandler}>{item.word}</span>
           </Tooltip>{' '}
           ({item.numSyllables} syll.)
         </StyledLi>
       );
     });
-    setOutputHeader('');
-  }
+    setResultsList(list);
+  }, [results]);
 
   return (
     <StyledOutput>
-      {isLoading ? (
-        <StyledLoader />
-      ) : (
-        <>
-          <h2>
-            {results.length !== 0 ? (
-              <>
-                Words that rhyme with <span>{spanText}</span>
-              </>
-            ) : (
-              <>
-                <span>{spanText}</span> not found.
-                <br /> Try another word.
-              </>
-            )}
-          </h2>
-          <ol>{resultsList}</ol>
-        </>
-      )}
+      <h2>
+        {results?.length !== 0 ? (
+          <>
+            Words that rhyme with <span>{word}</span>
+          </>
+        ) : (
+          <>
+            <span>{spanText}</span> not found.
+            <br /> Try another word.
+          </>
+        )}
+      </h2>
+      <ol>{resultsList}</ol>
     </StyledOutput>
   );
 };

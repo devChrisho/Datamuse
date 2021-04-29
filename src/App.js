@@ -72,12 +72,16 @@ function App() {
   const [voiceChoice, setVoiceChoice] = React.useState();
   const [voicesSet, setVoicesSet] = React.useState([]);
 
+<<<<<<< Updated upstream
   // Gets list of voices
+=======
+>>>>>>> Stashed changes
   React.useEffect(() => {
     const getVoices = () => {
       setTimeout(() => {
+        // Gets list of voices
         const voices = synth.getVoices();
-
+        // filter to get array of english voices
         const engVoices = voices.filter(voice => {
           return voice.lang.includes('en');
         });
@@ -89,9 +93,9 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    const localStorage = window.localStorage;
-    // name of previous chosen voice
-    const storageVoice = localStorage.getItem('selectedVoice');
+    // name of previous chosen voice name
+    const storageVoice = window.localStorage?.getItem('selectedVoice');
+
     // previous voice object
     const previousVoice = voicesSet.filter(voice => {
       return voice.name === storageVoice;
@@ -136,18 +140,18 @@ function App() {
           setResults={setResults}
           setIsLoading={setIsLoading}
         />
-        {visibility ? (
-          <Output
-            results={results}
-            visibility={visibility}
-            isLoading={isLoading}
-            spanText={spanText}
-            outputHeader={outputHeader}
-            setOutputHeader={setOutputHeader}
-            voiceChoice={voiceChoice}
-            voicesSet={voicesSet}
-          />
-        ) : null}
+
+        <Output
+          results={results}
+          visibility={visibility}
+          isLoading={isLoading}
+          spanText={spanText}
+          outputHeader={outputHeader}
+          setOutputHeader={setOutputHeader}
+          voiceChoice={voiceChoice}
+          voicesSet={voicesSet}
+          word={word}
+        />
       </StyledContainer>
     </div>
   );
