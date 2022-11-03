@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import * as React from 'react';
-import axios from 'axios';
+import styled from "styled-components";
+import * as React from "react";
+import axios from "axios";
 
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   h1 {
-    font-family: 'Work Sans', sans-serif;
+    font-family: "Work Sans", sans-serif;
     color: #4a3da0;
     font-weight: 100;
     font-size: 3.2rem;
@@ -61,12 +61,12 @@ const Input = ({
   setIsLoading,
 }) => {
   // !exp Refs
-  const userInput = new React.useRef('');
+  const userInput = new React.useRef("");
 
   // custom function
   const findRhyme = async (userWord, userMaxItems) => {
     const api = `https://api.datamuse.com/words?rel_rhy=`;
-    const endpoint = api + userWord + '&max=' + userMaxItems;
+    const endpoint = api + userWord + "&max=" + userMaxItems;
     try {
       const res = await axios(endpoint);
       const data = res.data;
@@ -88,27 +88,14 @@ const Input = ({
     // }
   };
 
-  const keydownHandler = async e => {
-    if (e.key === 'Enter') {
+  const keydownHandler = async (e) => {
+    if (e.key === "Enter") {
       const data = await findRhyme(userInput.current.value, maxItems);
       await setResults(data);
       await setWord(userInput.current.value);
       setVisibility(true);
       setSpanText(word);
-      //  userInput.current.value = '';
     }
-
-    // if (e.key === 'Enter') {
-    //   if (
-    //     userInput.current.value !== '' &&
-    //     userInput.current.value.split(' ').length === 1
-    //   ) {
-    //     // console.log(userInput.current.value);
-    //     // setWord(userInput.current.value);
-    //     console.log(word)
-    //     getRhyme();
-    //   }
-    // }
   };
 
   // function
@@ -119,18 +106,18 @@ const Input = ({
     setVisibility(true);
     setIsLoading(false);
     setSpanText(word);
-    userInput.current.value = '';
+    userInput.current.value = "";
   };
 
   return (
     <StyledDiv>
       <h1>Time to find a Rhyme </h1>
       <input
-        type='text'
-        placeholder='type a word...'
-        autoComplete='off'
-        autoCorrect='off'
-        spellCheck='false'
+        type="text"
+        placeholder="type a word..."
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck="false"
         ref={userInput}
         onKeyDown={keydownHandler}
       />

@@ -1,13 +1,13 @@
 // module imports
-import * as React from 'react';
-import styled from 'styled-components';
-import * as Icons from '@material-ui/icons';
-import * as MUI from '@material-ui/core';
+import * as React from "react";
+import styled from "styled-components";
+import * as Icons from "@material-ui/icons";
+import * as MUI from "@material-ui/core";
 
 // !exp Custom components
-import Input from './components/input/Input';
-import Output from './components/output/output';
-import SettingsModal from './components/settingModal/SettingsModal';
+import Input from "./components/input/Input";
+import Output from "./components/output/output";
+import SettingsModal from "./components/settingModal/SettingsModal";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ const StyledContainer = styled.div`
     animation: rotating 5s linear infinite;
   }
 
-/* Tween */
+  /* Tween */
   @keyframes rotating {
     from {
       -ms-transform: rotate(0deg);
@@ -61,29 +61,25 @@ const synth = window.speechSynthesis;
 
 function App() {
   // !exp States
-  const [word, setWord] = React.useState('');
+  const [word, setWord] = React.useState("");
   const [maxItems, setMaxItems] = React.useState(10);
   const [results, setResults] = React.useState([]);
   const [visibility, setVisibility] = React.useState(false);
-  const [spanText, setSpanText] = React.useState('');
-  const [outputHeader, setOutputHeader] = React.useState('');
+  const [spanText, setSpanText] = React.useState("");
+  const [outputHeader, setOutputHeader] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(true);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
   const [voiceChoice, setVoiceChoice] = React.useState();
   const [voicesSet, setVoicesSet] = React.useState([]);
 
-<<<<<<< Updated upstream
-  // Gets list of voices
-=======
->>>>>>> Stashed changes
   React.useEffect(() => {
     const getVoices = () => {
       setTimeout(() => {
         // Gets list of voices
         const voices = synth.getVoices();
         // filter to get array of english voices
-        const engVoices = voices.filter(voice => {
-          return voice.lang.includes('en');
+        const engVoices = voices.filter((voice) => {
+          return voice.lang.includes("en");
         });
 
         setVoicesSet(engVoices);
@@ -94,10 +90,10 @@ function App() {
 
   React.useEffect(() => {
     // name of previous chosen voice name
-    const storageVoice = window.localStorage?.getItem('selectedVoice');
+    const storageVoice = window.localStorage?.getItem("selectedVoice");
 
     // previous voice object
-    const previousVoice = voicesSet.filter(voice => {
+    const previousVoice = voicesSet.filter((voice) => {
       return voice.name === storageVoice;
     })[0];
 
@@ -109,17 +105,16 @@ function App() {
   };
 
   return (
-    <div className='App'>
+    <div className="App">
       <StyledContainer>
         <StyledCogIcon
           onClick={iconClickHandler}
-          className={isSettingsOpen ? 'rotating' : ''}
+          className={isSettingsOpen ? "rotating" : ""}
         />
         <MUI.Dialog
           open={isSettingsOpen}
           onClose={iconClickHandler}
-          fullWidth={true}
-        >
+          fullWidth={true}>
           <SettingsModal
             voicesSet={voicesSet}
             voiceChoice={voiceChoice}
